@@ -22,7 +22,7 @@ class Deck():
 
     def shuffle(self):
         self.deck.clear()
-        while len(self.deck) != 52:
+        while len(self.__cards) > 0:
             num = random.randint(0, len(self.__cards)-1)
             self.deck.append(self.__cards.pop(num))
         self.__populateCards()

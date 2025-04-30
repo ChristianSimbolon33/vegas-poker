@@ -1,8 +1,9 @@
 import deck
-
+import poker
 
 
 def main():
+    pok = poker.Poker()
     currentDeck = deck.Deck()
     currentDeck.shuffle()
     hand = []
