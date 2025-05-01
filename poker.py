@@ -54,22 +54,32 @@ class Poker():
         return lowFullHouse or highFullHouse
     
     def is3s(self, hand:list[card.Card]):
-        sortedHand = sorted(hand, key=lambda p: p.val )
         if (self.is4s(hand) or self.isFullHouse(hand)):
             return False
+        sortedHand = sorted(hand, key=lambda p: p.val )
         low3s = (sortedHand[0].val == sortedHand[1].val == sortedHand[2].val)
         middle3s = (sortedHand[1].val == sortedHand[2].val == sortedHand[3].val)
         high3s = (sortedHand[2].val == sortedHand[3].val == sortedHand[4].val)
         return low3s or middle3s or high3s
     
     def is2Pair(self, hand:list[card.Card]):
-        sortedHand = sorted(hand, key=lambda p: p.val )
         if(self.is4s(hand) or self.isFullHouse(hand) or self.is3s(hand)):
             return False
+        sortedHand = sorted(hand, key=lambda p: p.val )
         lowPairs = (sortedHand[0].val == sortedHand[1].val and sortedHand[2] == sortedHand[3])
         splitPairs = (sortedHand[0].val == sortedHand[1].val and sortedHand[3] == sortedHand[4])
         highPairs = (sortedHand[1].val == sortedHand[2].val and sortedHand[3] == sortedHand[4])
         return lowPairs or splitPairs or highPairs
+    
+    def is2s(self, hand:list[card.Card]):
+        if(self.is4s(hand) or self.isFullHouse(hand) or self.is3s(hand) or self.is2Pair(hand)):
+            return False
+        sortedHand = sorted(hand, key=lambda p: p.val )
+        lowPair = (sortedHand[0].val == sortedHand[1].val)
+        lowMidPair = (sortedHand[1].val == sortedHand[2].val)
+        highMidPair = (sortedHand[2].val == sortedHand[3].val)
+        highPair = (sortedHand[3].val == sortedHand[4].val)
+        return lowPair or lowMidPair or highMidPair or highPair
 
 
 
