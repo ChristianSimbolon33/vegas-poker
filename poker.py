@@ -40,10 +40,42 @@ class Poker():
             if hand[i].val == 13:
                 kingInHand = True
         return aceInHand and kingInHand and self.isFlush(hand) and self.isStraight(hand)
+    
+    def is4s(self, hand:list[card.Card]):
+        sortedHand = sorted(hand, key=lambda p: p.val )
+        low4s = (sortedHand[0].val == sortedHand[1].val == sortedHand[2].val == sortedHand[3].val)
+        high4s = (sortedHand[1].val == sortedHand[2].val == sortedHand[3].val == sortedHand[4].val)
+        return low4s or high4s
+
+    def isFullHouse(self, hand:list[card.Card]):
+        sortedHand = sorted(hand, key=lambda p: p.val )
+        lowFullHouse = (sortedHand[0].val == sortedHand[1].val == sortedHand[2].val and sortedHand[3].val == sortedHand[4].val)
+        highFullHouse = (sortedHand[4].val == sortedHand[3].val == sortedHand[2].val and sortedHand[1].val == sortedHand[0].val)
+        return lowFullHouse or highFullHouse
+    
+    def is3s(self, hand:list[card.Card]):
+        sortedHand = sorted(hand, key=lambda p: p.val )
+        if (self.is4s(hand) or self.isFullHouse(hand)):
+            return False
+        low3s = (sortedHand[0].val == sortedHand[1].val == sortedHand[2].val)
+        middle3s = (sortedHand[1].val == sortedHand[2].val == sortedHand[3].val)
+        high3s = (sortedHand[2].val == sortedHand[3].val == sortedHand[4].val)
+        return low3s or middle3s or high3s
+    
+    def is2Pair(self, hand:list[card.Card]):
+        sortedHand = sorted(hand, key=lambda p: p.val )
+        if(self.is4s(hand) or self.isFullHouse(hand) or self.is3s(hand)):
+            return False
+        lowPairs = (sortedHand[0].val == sortedHand[1].val and sortedHand[2] == sortedHand[3])
+        splitPairs = (sortedHand[0].val == sortedHand[1].val and sortedHand[3] == sortedHand[4])
+        highPairs = (sortedHand[1].val == sortedHand[2].val and sortedHand[3] == sortedHand[4])
+        return lowPairs or splitPairs or highPairs
+
 
 
 
 if __name__ == "__main__":
-    hand = [card.Card(1, "spades"), card.Card(12, "spades"), card.Card(13, "spades"), card.Card(11, "spades"), card.Card(10, "spades")]
+    hand = [card.Card(10, "spades"), card.Card(1, "spades"), card.Card(10, "spades"), card.Card(10, "spades"), card.Card(2, "spades")]
     pok = Poker()
-    print(pok.isStraight(hand), pok.isFlush(hand), pok.isStraightFlush(hand), pok.isRoyalFlush(hand))
+    #print(pok.isStraight(hand), pok.isFlush(hand), pok.isStraightFlush(hand), pok.isRoyalFlush(hand))
+    print(pok.is3s(hand))
