@@ -28,7 +28,7 @@ class Deck():
         self.__populateCards()
         return
     
-    def deal(self):
+    def deal(self) -> card.Card:
         return self.deck.pop()
 
     def getCards(self):
