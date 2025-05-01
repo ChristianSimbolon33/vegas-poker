@@ -10,8 +10,12 @@ def main():
     for i in range(5):
         hand.append(currentDeck.deal())
     
+    print("Your hand is: ", end="")
     for i in range(len(hand)):
-        print(hand[i])
+        print(hand[i], end=" ")
+    print()
+
+
 
     return
 
