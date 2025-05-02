@@ -110,7 +110,7 @@ class Poker():
             lowMidPair = (sortedHand[1].val == sortedHand[2].val)
             highMidPair = (sortedHand[2].val == sortedHand[3].val)
             highPair = (sortedHand[3].val == sortedHand[4].val)
-            if(lowPair and (sortedHand[0].val > 10 or sortedHand == 1)):
+            if(lowPair and (sortedHand[0].val > 10 or sortedHand[0].val == 1)):
                 return self.winnings[10]
             elif(lowMidPair and sortedHand[1].val > 10 ):
                 return self.winnings[10]
@@ -127,6 +127,6 @@ class Poker():
 
 
 if __name__ == "__main__":
-    hand = [card.Card(7, "clubs"), card.Card(9, "hearts"), card.Card(8, "hearts"), card.Card(9, "clubs"), card.Card(1, "spades")]
+    hand = [card.Card(13, "clubs"), card.Card(6, "diamonds"), card.Card(1, "spades"), card.Card(8, "diamonds"), card.Card(1, "diamond")]
     pok = Poker()
     print(pok.bestHand(hand))
