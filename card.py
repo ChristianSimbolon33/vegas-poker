@@ -27,4 +27,6 @@ class Card():
         return self.name + " of " + self.suit
     
     def __eq__(self, value):
+        if(type(value) != Card):
+            return False
         return (value.val == self.val and value.suit == self.suit)
