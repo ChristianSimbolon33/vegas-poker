@@ -11,7 +11,6 @@ class pokerBot():
         for i in range(32):
             self.moves.append(format(i, '05b'))
 
-
     def getHand(self):
         return self.__hand
     
@@ -19,14 +18,35 @@ class pokerBot():
         self.__hand = hand
 
     def move(self, deck:deck.Deck) -> str:
-        currentDeck = deck
-        
+        currentDeck = deck.getCards()
+
+        for card in self.__hand:
+            currentDeck.remove(card)
+
+        avgrewards = []
+
         for move in self.moves:
+            hand = self.__hand.copy()
+            
+
+        
+        
+        
+        
+
 
 
 
 if __name__ == "__main__":
-    print()
+    bot = pokerBot()
+    currentDeck = deck.Deck()
+    currentDeck.shuffle()
+    hand = []
+    for i in range(5):
+        hand.append(currentDeck.deal())
+        
+    bot.setHand(hand)
+    bot.move(currentDeck)
 
 
 
