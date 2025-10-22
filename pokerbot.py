@@ -3,6 +3,14 @@ import deck
 import card
 import itertools
 
+def printHand(hand:list[card.Card]): # type: ignore
+    print("Your hand is: ", end="")
+    for i in range(len(hand)):
+        if(i == len(hand)-1):
+            print(hand[i])
+        else:
+            print(hand[i], end=", ")
+
 def generate_combination(a:list, n:int, prevarray:list=[]):
     if(len(prevarray) == n):
         return [prevarray]
@@ -59,8 +67,6 @@ class pokerBot():
 
         index = 0
         max = 0
-        for i in range(len(avgRewards)):
-            print((self.moves[i], avgRewards[i]))
         for i, val in enumerate(avgRewards):
             if val > max:
                 max = val
@@ -71,15 +77,21 @@ class pokerBot():
 if __name__ == "__main__":
     bot = pokerBot()
     currentDeck = deck.Deck()
-    currentDeck.shuffle()
-    hand = []
-    for i in range(5):
-        hand.append(currentDeck.deal())
-        
-    bot.setHand(hand)
-    for card in bot.getHand():
-        print(card)
-    print(bot.move(currentDeck))
+    pok = poker.Poker()
+    winnings = 0
+
+    for index in range(10):
+        currentDeck.shuffle()
+        hand = []
+        for i in range(5):
+            hand.append(currentDeck.deal())      
+        bot.setHand(hand)
+        move = bot.move(currentDeck)
+        for i in range(len(move)):
+            if move[i] != "1":
+                hand[i] = currentDeck.deal()
+        winnings+=pok.bestHand(hand)
+    print(winnings/10.0)
 
     # for comb in itertools.combinations([1,2,3,4],3):
     #     print(comb)

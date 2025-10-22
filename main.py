@@ -21,7 +21,7 @@ def main():
  
     while cont != "N" and credits>0:
         bet = int(input("Enter bet (1-5): "))
-        while bet not in [1,2,3,4,5]:
+        while bet not in [1,2,3,4,5] or bet > credits:
             print("Invalid bet")
             bet = int(input("Enter bet (1-5): "))
         currentDeck.shuffle()
