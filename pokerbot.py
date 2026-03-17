@@ -21,12 +21,21 @@ def generate_combination(a:list, n:int, prevarray:list=[]):
         combs += generate_combination(a[i+1:], n, prevarrayextended)
     return combs
 
+def getHighestCard(hand:list[card.Card]):
+    maxcard = hand[0]
+    for i in range(len(hand)):
+        if(hand[i].getVal() == 1):
+            return hand[i]
+        if(hand[i].getVal() > maxcard.getVal()):
+            maxcard = hand[i]
+    return maxcard
 
 class pokerBot():
     def __init__(self):
         self.__hand = []
         self.__pok = poker.Poker()
         self.moves = []
+        self.mult = 1
         for i in range(32):
             self.moves.append(format(i, '05b'))
 
@@ -35,9 +44,18 @@ class pokerBot():
     
     def setHand(self, hand:list[card.Card]):
         self.__hand = hand
+    
+    def getMult(self):
+        highestcard = getHighestCard(self.__hand)
+        if(highestcard.getVal() == 1 or highestcard.getVal() >= 11):
+            self.mult = 1
+        else:
+            self.mult = 12 - highestcard.getVal()
+        
 
     def move(self, deck:deck.Deck) -> str:
         currentDeck = deck.getCards()
+        self.getMult()
 
         for card in self.__hand:
             currentDeck.remove(card)
@@ -62,7 +80,7 @@ class pokerBot():
                     if(val == "0"):
                         hand[i] = comb[j]
                         j += 1
-                totRewards += self.__pok.bestHand(hand)
+                totRewards += (self.__pok.bestHand(hand) * self.mult)
             avgRewards.append(totRewards/len(combinations))
 
         index = 0
@@ -90,7 +108,13 @@ if __name__ == "__main__":
         for i in range(len(move)):
             if move[i] != "1":
                 hand[i] = currentDeck.deal()
-        winnings+=pok.bestHand(hand)
+
+        highestcard = getHighestCard(hand)
+        if(highestcard.getVal() == 1 or highestcard.getVal() >= 11):
+            mult = 1
+        else:
+            mult = 12 - highestcard.getVal()
+        winnings+=pok.bestHand(hand) * mult
     print(winnings/10.0)
 
     # for comb in itertools.combinations([1,2,3,4],3):
